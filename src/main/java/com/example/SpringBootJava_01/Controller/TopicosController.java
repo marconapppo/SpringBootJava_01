@@ -15,10 +15,10 @@ public class TopicosController
 {
 
     @GetMapping()
-    public List<Topico> GetAll()
+    public List<TopicoDto> GetAll()
     {
-        var topico = new Topico("Duvida", "Duvida com Spring", new Curso("Spring", "Programação"));
+        var topico = new Topico("DuvAida", "Duvida com Spring", new Curso("Spring", "Programação"));
 
-        return Arrays.asList(topico, topico, topico );
+        return TopicoDto.Converter(Arrays.asList(topico, topico, topico));
     }
 }
