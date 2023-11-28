@@ -1,5 +1,6 @@
 package com.example.SpringBootJava_01.Controller;
 
+import com.example.SpringBootJava_01.Domain.Curso;
 import com.example.SpringBootJava_01.Domain.Topico;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ public class TopicoDto
     public String titulo;
     public String mensagem;
     public LocalDateTime dataCriacao;
+    public Curso curso;
 
     public TopicoDto(Topico topico)
     {
@@ -19,6 +21,7 @@ public class TopicoDto
         this.titulo = topico.getTitulo();
         this.mensagem = topico.getMensagem();
         this.dataCriacao = topico.getDataCriacao();
+        this.curso = topico.getCurso();
     }
 
     public static List<TopicoDto> Converter(List<Topico> topicos)
