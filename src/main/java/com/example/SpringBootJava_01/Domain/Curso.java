@@ -1,7 +1,11 @@
 package com.example.SpringBootJava_01.Domain;
 
-public class Curso {
+import jakarta.persistence.*;
 
+@Entity
+public class Curso
+{
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private String categoria;
