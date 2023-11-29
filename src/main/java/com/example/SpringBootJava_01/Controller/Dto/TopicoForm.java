@@ -1,4 +1,4 @@
-package com.example.SpringBootJava_01.Controller;
+package com.example.SpringBootJava_01.Controller.Dto;
 
 import com.example.SpringBootJava_01.Domain.Curso;
 import com.example.SpringBootJava_01.Domain.Topico;

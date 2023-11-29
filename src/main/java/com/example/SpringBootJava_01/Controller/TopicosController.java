@@ -1,5 +1,8 @@
 package com.example.SpringBootJava_01.Controller;
 
+import com.example.SpringBootJava_01.Controller.Dto.DetalhesDoTopicoDto;
+import com.example.SpringBootJava_01.Controller.Dto.TopicoDto;
+import com.example.SpringBootJava_01.Controller.Dto.TopicoForm;
 import com.example.SpringBootJava_01.Domain.Topico;
 import com.example.SpringBootJava_01.JpaRepository.CursoRepository;
 import com.example.SpringBootJava_01.JpaRepository.TopicoRepository;
@@ -46,4 +49,10 @@ public class TopicosController
         return ResponseEntity.created(uri).body(new TopicoDto(topico));
     }
 
+    @GetMapping("/{id}")
+    public DetalhesDoTopicoDto detalhar(@PathVariable Long id)
+    {
+        var topico = topicoRepository.getReferenceById(id);
+        return new DetalhesDoTopicoDto(topico);
+    }
 }
