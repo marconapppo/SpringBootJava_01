@@ -1,5 +1,6 @@
 package com.example.SpringBootJava_01.Controller;
 
+import com.example.SpringBootJava_01.Controller.Dto.AtualizacaoTopicoForm;
 import com.example.SpringBootJava_01.Controller.Dto.DetalhesDoTopicoDto;
 import com.example.SpringBootJava_01.Controller.Dto.TopicoDto;
 import com.example.SpringBootJava_01.Controller.Dto.TopicoForm;
@@ -9,6 +10,7 @@ import com.example.SpringBootJava_01.JpaRepository.TopicoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -54,5 +56,13 @@ public class TopicosController
     {
         var topico = topicoRepository.getReferenceById(id);
         return new DetalhesDoTopicoDto(topico);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form)
+    {
+        Topico topico = form.atualizar(id, topicoRepository);
+        return ResponseEntity.ok(new TopicoDto(topico));
     }
 }
