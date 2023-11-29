@@ -53,10 +53,13 @@ public class TopicosController
     }
 
     @GetMapping("/{id}")
-    public DetalhesDoTopicoDto detalhar(@PathVariable Long id)
+    public ResponseEntity<DetalhesDoTopicoDto> detalhar(@PathVariable Long id)
     {
-        var topico = topicoRepository.getReferenceById(id);
-        return new DetalhesDoTopicoDto(topico);
+        var topico = topicoRepository.findById(id);
+
+        if(topico.isPresent()) { return ResponseEntity.ok(new DetalhesDoTopicoDto(topico.get())); };
+
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
