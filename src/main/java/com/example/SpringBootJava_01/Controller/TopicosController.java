@@ -9,10 +9,13 @@ import com.example.SpringBootJava_01.JpaRepository.CursoRepository;
 import com.example.SpringBootJava_01.JpaRepository.TopicoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -26,20 +29,20 @@ public class TopicosController
     @Autowired
     private CursoRepository cursoRepository;
 
-    @GetMapping()
-    public List<TopicoDto> GetAll(String nomeCurso)
-    {
-        List<Topico> topicos;
-        if (nomeCurso == null)
-        {
-            topicos = topicoRepository.findAll();
-        }
-        else
-        {
-            topicos = topicoRepository.findByCurso_Nome(nomeCurso);
-        }
-        return TopicoDto.Converter(topicos);
-    }
+//    @GetMapping()
+//    public List<TopicoDto> GetAll(String nomeCurso)
+//    {
+//        List<Topico> topicos;
+//        if (nomeCurso == null)
+//        {
+//            topicos = topicoRepository.findAll();
+//        }
+//        else
+//        {
+//            topicos = topicoRepository.findByCurso_Nome(nomeCurso);
+//        }
+//        return TopicoDto.converter(topicos);
+//    }
 
     @PostMapping
     @Transactional
@@ -76,5 +79,22 @@ public class TopicosController
     {
         topicoRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, @RequestParam int pagina, @RequestParam int qtd)
+    {
+        Pageable paginacao = PageRequest.of(pagina, qtd);
+
+        Page<Topico> topicos;
+        if (nomeCurso == null)
+        {
+            topicos = topicoRepository.findAll(paginacao);
+        }
+        else
+        {
+            topicos = topicoRepository.findByCurso_Nome(nomeCurso, paginacao);
+        }
+        return TopicoDto.converter(topicos);
     }
 }
