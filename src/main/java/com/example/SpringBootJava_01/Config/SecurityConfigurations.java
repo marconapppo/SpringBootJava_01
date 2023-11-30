@@ -29,6 +29,7 @@ public class SecurityConfigurations
         http
             .authorizeHttpRequests((authorize) -> authorize
                     .requestMatchers(HttpMethod.GET,"Topicos").permitAll()
+                    .requestMatchers(HttpMethod.GET,"Topicos/*").permitAll()
                     .anyRequest().authenticated()
             );
 
