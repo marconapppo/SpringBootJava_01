@@ -1,6 +1,7 @@
 package com.example.SpringBootJava_01.Controller;
 
 import com.example.SpringBootJava_01.Controller.Dto.LoginForm;
+import com.example.SpringBootJava_01.Controller.Dto.TokenDto;
 import com.example.SpringBootJava_01.Service.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class AutenticacaoController
         {
             Authentication authentication = authManager.authenticate(dadosLogin);
             String token = tokenService.gerarToken(authentication);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
         }
         catch (AuthenticationException e)
         {
