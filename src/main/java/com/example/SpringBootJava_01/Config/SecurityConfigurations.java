@@ -14,6 +14,8 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,7 +39,10 @@ public class SecurityConfigurations
                     .requestMatchers(HttpMethod.GET,"Topicos").permitAll()
                     .requestMatchers(HttpMethod.GET,"Topicos/*").permitAll()
                     .anyRequest().authenticated()
-            ).formLogin(Customizer.withDefaults());
+            )
+            .csrf(AbstractHttpConfigurer::disable) /* por usar token ele é livre deste ataque */
+            .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            //.formLogin(Customizer.withDefaults()); /* Form padrao para usar Sessão */
 
         return http.build();
     }
