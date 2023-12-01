@@ -1,5 +1,6 @@
 package com.example.SpringBootJava_01.Config;
 
+import com.example.SpringBootJava_01.JpaRepository.UsuarioRepository;
 import com.example.SpringBootJava_01.Service.AutenticacaoService;
 import com.example.SpringBootJava_01.Service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class SecurityConfigurations
     private TokenService tokenService;
 
     @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
     private AutenticacaoService autenticacaoService;
 
     @Bean
@@ -40,7 +44,7 @@ public class SecurityConfigurations
             )
             .csrf(AbstractHttpConfigurer::disable) /* por usar token ele é livre deste ataque */
             .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
             //.formLogin(Customizer.withDefaults()); /* Form padrao para usar Sessão */
 
         return http.build();

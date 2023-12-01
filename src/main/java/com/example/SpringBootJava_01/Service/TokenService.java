@@ -1,6 +1,8 @@
 package com.example.SpringBootJava_01.Service;
 
 import com.example.SpringBootJava_01.Domain.Usuario;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,5 +47,12 @@ public class TokenService
         {
             return false;
         }
+    }
+
+    public Long getIdUsuario(String token)
+    {
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+        Claims claims = claimsJws.getBody();
+        return Long.parseLong(claims.getSubject());
     }
 }
