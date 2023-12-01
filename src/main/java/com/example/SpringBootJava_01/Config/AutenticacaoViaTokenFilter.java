@@ -1,5 +1,6 @@
 package com.example.SpringBootJava_01.Config;
 
+import com.example.SpringBootJava_01.Service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,11 +11,18 @@ import java.io.IOException;
 
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter
 {
+    private TokenService tokenService;
+
+    public AutenticacaoViaTokenFilter(TokenService tokenService)
+    {
+        this.tokenService = tokenService;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
     {
         String token = recuperarToken(request);
-        System.out.print(token);
+        boolean valido = tokenService.isTokenValido(token);
 
         filterChain.doFilter(request, response);
     }
