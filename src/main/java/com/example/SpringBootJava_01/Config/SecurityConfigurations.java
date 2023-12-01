@@ -24,6 +24,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
@@ -42,7 +43,8 @@ public class SecurityConfigurations
                     .anyRequest().authenticated()
             )
             .csrf(AbstractHttpConfigurer::disable) /* por usar token ele é livre deste ataque */
-            .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .addFilterBefore(new AutenticacaoViaTokenFilter(), UsernamePasswordAuthenticationFilter.class);
             //.formLogin(Customizer.withDefaults()); /* Form padrao para usar Sessão */
 
         return http.build();
