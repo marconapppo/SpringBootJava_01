@@ -38,6 +38,7 @@ public class SecurityConfigurations
             .authorizeHttpRequests((authorize) -> authorize
                     .requestMatchers(HttpMethod.GET,"Topicos").permitAll()
                     .requestMatchers(HttpMethod.GET,"Topicos/*").permitAll()
+                    .requestMatchers(HttpMethod.POST,"auth").permitAll()
                     .anyRequest().authenticated()
             )
             .csrf(AbstractHttpConfigurer::disable) /* por usar token ele é livre deste ataque */
